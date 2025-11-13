@@ -1,0 +1,29 @@
+**Launch Components
+
+Open two terminals and run:
+
+Terminal 1 (gNB):
+sudo srsgnb --config-file srsran_setup/gnb.conf
+
+Terminal 2 (UE):
+sudo srsue --config-file srsran_setup/ue.conf
+
+
+If you’re using simulation mode (ZMQ radio), they will connect virtually — no SDR hardware required.
+
+**Telemetry Capture
+
+Logs will be generated in:
+
+~/.config/srsran/ue_logs.txt
+
+
+These logs include PRB usage, CQI, throughput, and latency — used by your AI scheduler for telemetry extraction.
+
+**Integration with AI Scheduler
+
+After the gNB and UE generate telemetry, run:
+
+python3 src/data_extraction.py --parse ~/.config/srsran/
+python3 src/train_rl_model.py
+python3 src/ai_scheduler.py
